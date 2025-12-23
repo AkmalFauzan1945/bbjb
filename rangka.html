@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Order</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            width: 420px;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .qty {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty button {
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 20px 0;
+            color: #0b5e4b;
+        }
+
+        select {
+            width: 100%;
+            height: 44px;
+            border-radius: 8px;
+            padding: 0 10px;
+            margin-top: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .submit {
+            flex: 1;
+            background: #0b5e4b;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .cancel {
+            flex: 1;
+            background: #d63a2a;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0b5e4b;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s ease;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>YOUR ORDER</h2>
+    <hr>
+
+    <div class="item">
+        <div>
+            <strong>Makan ringan</strong><br>
+            <small>IDR 3.000 / item</small>
+        </div>
+
+        <div class="qty">
+            <button id="minus">−</button>
+            <span id="qty">1</span>
+            <button id="plus">+</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="total">
+        <span>Total Price</span>
+        <span id="total">IDR 3.000</span>
+    </div>
+
+    <h3>PAYMENT METHODE</h3>
+
+    <select id="payment">
+        <option value="">Pilih Payment</option>
+        <option value="ovo">OVO</option>
+        <option value="dana">DANA</option>
+        <option value="qris">QRIS</option>
+    </select>
+
+    <div class="buttons">
+        <button class="submit">Submit</button>
+        <button class="cancel">Cancel</button>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">Pembayaran berhasil</div>
+
+<script>
+    const submitBtn = document.querySelector(".submit");
+    const toast = document.getElementById("toast");
+
+    submitBtn.addEventListener("click", () => {
+        toast.classList.add("show");
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    });
+
+    const minusBtn = document.getElementById("minus");
+    const plusBtn = document.getElementById("plus");
+    const qtyText = document.getElementById("qty");
+    const totalText = document.getElementById("total");
+
+    const pricePerItem = 3000;
+    let qty = 1;
+
+    function updateTotal() {
+        const total = qty * pricePerItem;
+        qtyText.textContent = qty;
+        totalText.textContent = "IDR " + total.toLocaleString("id-ID");
+    }
+
+    plusBtn.addEventListener("click", () => {
+        qty++;
+        updateTotal();
+    });
+
+    minusBtn.addEventListener("click", () => {
+        if (qty > 1) {
+            qty--;
+            updateTotal();
+        }
+    });
+
+    submitBtn.addEventListener("click", () => {
+        toast.classList.add("show");
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    });
+</script>
+
+</body>
+</html>
